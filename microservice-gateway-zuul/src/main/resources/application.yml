@@ -1,0 +1,45 @@
+server:
+  port: 8040
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+spring:
+  application:
+    name: microservice-gateway-zuul
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+zuul:
+  routes:
+    # 自定义微服务访问路径： zuul.routes.指定微服务的serviceId = 指定路径
+#    microservice-provider-user: /user/**
+    # 忽略指定微服务 多个用逗号分隔,如果需要忽略所有的微服务，使用 '*' ,但是通过{zuul.routes.指定微服务的serviceId = 指定路径} 指定的还是会被路由
+#  ignored-services: microservice-provider-user,microservice-consumer-movie
+#  ignored-services: '*'
+
+    # 该配置方式中，user-route只是给路由一个名称，可以任意起名。当不指定service-id，该属性默认作为service-id，或path
+#    user-route:
+#      service-id: microservice-provider-user
+#      path: /user/**
+
+    #同时指定path和URL,使用这种方式配置的路由不会作为HystrixCommand执行，同时也不能使用Ribbon来负载均衡多个URL
+#    user-route:
+#      path: /user/**
+#      url: http://localhost:8000/
+
+#跳转路由，处理跳转路由的过滤器由SendForwardFilter
+    helloRoute:
+      path: /test/**
+      url: forward:/source/hello
+
+#保护微服务的某些敏感路径
+  ignored-patterns: /**/admin/** # 忽略所有包含/admin/的路径

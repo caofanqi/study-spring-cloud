@@ -1,0 +1,36 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: microservice-config-server
+  cloud:
+    config:
+      server:
+        git:
+          # Git仓库地址
+          uri: https://github.com/caofanqi/spring-cloud-config-repo.git
+          # Git仓库账号
+          username: caofanqi@outlook.com
+          # Git仓库密码
+          password: Caofanqi0219.
+          #启动时加载配置文件
+          clone-on-start: true
+          #本地缓存
+          basedir: e:\\spring-cloud-config-repo
+  rabbitmq:
+    host: 192.168.0.103
+    username: guest
+    password: guest
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true

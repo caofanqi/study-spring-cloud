@@ -1,0 +1,23 @@
+server:
+  port: 8010
+spring:
+  application:
+    name: microservice-consumer-movie
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+
+logging:
+  level:
+    cn.caofanqi.cloud.UserFeignClient : debug
+feign:
+  client:
+    config:
+      microservice-provider-user:
+        # 配置Feign的日志级别，相当于代码配置方式中的Logger
+        loggerLevel: full

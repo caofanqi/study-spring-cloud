@@ -1,0 +1,46 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: microservice-provider-user
+  jpa:
+    show-sql: true
+
+logging:
+  level:
+    root: INFO
+    # 配置日志级别，让hibernate打印出执行的SQL参数
+    org.hibernate: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
+
+management:
+  endpoint:
+    health:
+      #是否展示健康检查详情
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+
+      # 暴露metrics端点，如需暴露多个，用,分隔；如需暴露所有端点，用'*'
+#        include: metrics
+        include: '*'
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+      #集群最好将所有eureka节点都配置上
+#      defaultZone: http://peer1:8761/eureka/,http://peer2:8762/eureka/
+      #安全
+  #      defaultZone: http://user:password@localhost:8761/eureka/
+    #默认30s去服务器端抓取注册表（可用的服务列表），并将服务器端的注册表保持到本地缓存中
+    registry-fetch-interval-seconds: 30
+  instance:
+    # 是否注册IP到eureka server，如不指定或设为false，那就会注册主机名到eureka server
+    prefer-ip-address: true
+    #客户端实例会向服务器发送周期性心跳，默认30s
+    lease-renewal-interval-in-seconds: 30
+    #服务器默认在90s内没有接收到客户端实例的心跳，会将该实例从注册表中清理掉
+    lease-expiration-duration-in-seconds: 90
